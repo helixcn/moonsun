@@ -12,8 +12,7 @@
 }
 \usage{
 gmt(hour = NULL, minute = 0, second = 0, epoch = Sys.time(), length = 1, by = 1)
-gst(jday = jd(), hour = NULL, minute = 0, second = 0,
-	 epoch = Sys.time(), length = 1, by = 1)
+gst(jday = jd(), hour = NULL, minute = 0, second = 0, epoch = Sys.time(), length = 1, by = 1)
 lst(..., lambda = getOption("longitude"))
 lt(hour = NULL, minute = 0, second = 0, epoch = Sys.time(), length = 1, by = 1)
 }

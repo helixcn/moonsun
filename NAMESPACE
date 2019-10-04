@@ -2,4 +2,16 @@
 # Remove the previous line if you edit this file
 
 # Export all names
+importFrom("graphics", "abline", "axTicks", "axis", "box", "lines", "matplot", "par", "plot", "points", "text", "title")
+importFrom("stats", "na.omit")
+exportPattern("^[[:alpha:]]+")
 exportPattern(".")
+import(utils)
+S3method(format,dms)
+S3method(format,jd)
+S3method(format,time) 
+S3method(plot,apos)
+S3method(plot,rst)
+S3method(print,eqc)
+S3method(print,jd)
+S3method(print,time)

@@ -1,30 +1,29 @@
-track <-
-function(ephem, mag = 7, edge = 0.2, cex.star = 1,
+track <- function(ephem, mag = 7, edge = 0.2, cex.star = 1,
          xlab = "Right Ascension", ylab = expression(paste("Declination", degree)), 
          col.track = "red", interval.lab = 15, lwd.track = 2, grid = TRUE, 
-		 bright.lab = TRUE, bright, starcat, ...){
-	
-	
+         bright.lab = TRUE, bright, starcat, ...){
+    
+         starcat <- moonsun::starcat
          background <- function(xlab = "",ylab = "", xlim = c(0, 24), 
-         	                   ylim = c(-45, 45), xinterval = 2, yinterval = 15 , 
-         	                   xunit = "h", yunit = expression(degree), axis = TRUE, 
-         	                   auto = TRUE, grid = FALSE, ...){            
+                                ylim = c(-45, 45), xinterval = 2, yinterval = 15 , 
+                                xunit = "h", yunit = expression(degree), axis = TRUE, 
+                                auto = TRUE, grid = FALSE, ...){            
              par(xaxs = "i", yaxs = "i")
              ### The xticks of chart are always reversed.
              plot(0, 0, xlim = rev(xlim), ylim = ylim, axes = FALSE, xlab = xlab, ylab = ylab, type = "n")
-         	
-         		## Add axes for the current plot
-             	xticks <- axTicks(1)
+             
+                 ## Add axes for the current plot
+                 xticks <- axTicks(1)
                   yticks <- axTicks(2)
-             	
-             	xlabs <- rev(paste(round((seq(0,24, by = abs(xticks[2]
-                   		 - xticks[1]))),digits = 2), xunit, sep = ""))
+                 
+                 xlabs <- rev(paste(round((seq(0,24, by = abs(xticks[2]
+                            - xticks[1]))),digits = 2), xunit, sep = ""))
                   xat   <- rev(round(seq(0,24, by = abs(xticks[2] - xticks[1])),2))
-             	
-             	ylabs <- paste(round(seq(-60,60, by = abs(yticks[2] 
-         		         - yticks[1])), digits = 2), "", sep = "")
+                 
+                 ylabs <- paste(round(seq(-60,60, by = abs(yticks[2] 
+                          - yticks[1])), digits = 2), "", sep = "")
                   yat   <- round(seq(-60,60, by = abs(yticks[2] - yticks[1])),2)
-             	
+                 
                   axis(1, at = xat, labels = xlabs)
                   axis(2, at = yat, labels = ylabs)
              
@@ -37,7 +36,7 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
              abline(h = 0)
              box()
          }
-         		
+                 
          ### Add the tracks of a planet according to the input positions.
          tracks <- 
          function(position, limit = 1, col = 2, lwd = 2){
@@ -54,7 +53,7 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
              breaks <- whichint(x = position[,1], limit = 1)
              if(length(breaks) == 0){
              lines(position[,1],position[,2], col = col, lwd = lwd) 
-         	## Lines have no breaks should not be cutted
+             ## Lines have no breaks should not be cutted
              }else{
                for(i in 1:(length(breaks))){
                  if(i == 1){
@@ -73,28 +72,29 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
              }
          }
              
-         ## The magnitude of star
-         magselect <- function(x, magnitude){
-             res <- x[x[,3] < magnitude, ]
-             res <- na.omit(res)
-             return(res)
-         }
+
              
          ### Add stars to the sky chart
          add.stars <- 
-         function(catalog, xlim = c(0, 24), ylim = c(-30, 30), mag = 3, times = 1, ...){
-             	## Subseting stars to be plot
-             subres <- magselect(catalog, magnitude = mag)
+         function(xlim = c(0, 24), ylim = c(-30, 30), mag = 3, times = 1, ...){
+                      ## The magnitude of star
+              magselect <- function(x, magnitude){
+                  res <- x[x[,3] < magnitude, ]
+                  res <- na.omit(res)
+                  return(res)
+              }
+                 ## Subseting stars to be plot
+             subres <- magselect(starcat, magnitude = mag)
              x1 <- range(xlim)
              x2 <- range(ylim)
              target <- subres[(subres[,1] >= x1[1])&(subres[,1] <= x1[2])&
-         	                 (subres[,2] >= x2[1])&(subres[,2] <= x2[2]),]
+                              (subres[,2] >= x2[1])&(subres[,2] <= x2[2]),]
              
              ## Calculating Size for each star
              if(is.integer(mag)){
                  magint <- 0:mag
              }else{
-             magint <- c(0:floor(mag), mag)	 
+                 magint <- c(0:floor(mag), mag)     
              }
              int <- findInterval(target[,3], magint)
              ddd <- rep(0, length(int))
@@ -105,7 +105,7 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
              }
              ## Add stars to a certain background
              points(x = (target[,1]), y = (target[,2]), xlim = xlim, ylim = ylim, 
-         		       type = "p", cex = times * ddd, ...)
+                        type = "p", cex = times * ddd, ...)
          }
              
              
@@ -123,7 +123,7 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
          ### Add Sun, Moon, and major planets to the chart. 
          add.planet <- function(time = jd(), col = 1, pcex = 3, pch = 21,...){
              labs <- c("Sun","Mon","Mercury","Venus","Mars","Jupiter",
-         	          "Saturn","Uranus","Neptune","Pluto")
+                       "Saturn","Uranus","Neptune","Pluto")
              position <- planets(time)
              text(position[,1], position[,2], labs, cex = 0.8)
              points(position[,1], position[,2],col = col, cex = pcex, pch = pch, ... )
@@ -153,9 +153,9 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
              return(x0)
          }
     
-	xlim <- egde.extent(range(ephem[,1]), edge = edge)
-	ylim <- egde.extent(range(ephem[,2]), edge = edge)
-	
+    xlim <- egde.extent(range(ephem[,1]), edge = edge)
+    ylim <- egde.extent(range(ephem[,2]), edge = edge)
+    
     if(xlim[1] < 0) xlim[1] =  0
     if(xlim[2] > 24) xlim[2] = 24
     
@@ -163,27 +163,27 @@ function(ephem, mag = 7, edge = 0.2, cex.star = 1,
     if(xlim[2] > 90) xlim[2] =   90
 
     par(tcl = 0.2)
-	
-	## plot the background
+    
+    ## plot the background
     background(xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, axis = axis, 
-	          grid = grid,...)
-	## add stars 		  
-    add.stars(starcat, mag = mag, pch = 19, time = cex.star)
-	
-	if(bright.lab){
-	add.brightlab(bright, upper = abs(ylim[2]-ylim[1])/20)
-	}
-	
+              grid = grid,...)
+    ## add stars           
+    add.stars(mag = mag, pch = 19, time = cex.star)
+    
+    if(bright.lab){
+        add.brightlab(bright, upper = abs(ylim[2]-ylim[1])/20)
+    }
+    
     ## add tracks of planets
-	tracks(ephem, col = col.track, lwd = lwd.track )
-	## add labels of planets
+    tracks(ephem, col = col.track, lwd = lwd.track )
+    ## add labels of planets
     addlab.eqc(ephem, interval = interval.lab, upper = abs(ylim[2]-ylim[1])/20)
-	
-	nam <- rownames(ephem)
-	astro <- substring(nam[1], 12, nchar(rownames(ephem[1,])))
-	begin <- min(as.Date(substring(nam, 1,10))) 
-	end <- max(as.Date(substring(nam, 1,10)))
-	title(paste("Track of",astro, "from",begin,"to",end))
+    
+    nam <- rownames(ephem)
+    astro <- substring(nam[1], 12, nchar(rownames(ephem[1,])))
+    begin <- min(as.Date(substring(nam, 1,10))) 
+    end <- max(as.Date(substring(nam, 1,10)))
+    title(paste("Apparent Motion of",astro, "from",begin,"to",end))
 }
 
-		        
+                

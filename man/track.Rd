@@ -83,19 +83,24 @@ data(bright)
 data(starcat)
 
 ephem.mercury <- mercury(jd(2010,1,1,length = 365))
-track(ephem.mercury, mag = 4, interval.lab = 30, bright.lab = TRUE, starcat = starcat, bright = bright)
+track(ephem.mercury, mag = 4, interval.lab = 30, 
+    bright.lab = TRUE, starcat = starcat, bright = bright)
 
 ephem.mercury <- mercury(jd(2010,7,30,length = 60))
-track(ephem.mercury, mag = 7, interval.lab = 10, cex.star = 2, starcat = starcat, bright = bright)
+track(ephem.mercury, mag = 7, interval.lab = 10, 
+    cex.star = 2, starcat = starcat, bright = bright)
 
 ephem.venus <- venus(jd(2011,4,30,length = 100))
-track(ephem.venus, col.track = "blue", lwd = 3, mag = 5, starcat = starcat, bright = bright)
+track(ephem.venus, col.track = "blue", lwd = 3, 
+    mag = 5, starcat = starcat, bright = bright)
 
 ephem.mars <- mars(jd(2010,8,30,length = 100))
-track(ephem.mars, cex.star = 1.5, grid = FALSE, starcat = starcat, bright = bright)
+track(ephem.mars, cex.star = 1.5, grid = FALSE, 
+    starcat = starcat, bright = bright)
 
 ephem.jupiter <- jupiter(jd(2010,9,22,length = 100))
-track(ephem.jupiter, cex.star = 1.5, col.track = "black" , starcat = starcat, bright = bright)
+track(ephem.jupiter, cex.star = 1.5, col.track = "black",
+    starcat = starcat, bright = bright)
 
 ephem.saturn <- saturn(jd(2011,9,22,length = 100))
 track(ephem.saturn, starcat = starcat, bright = bright)
